@@ -14,4 +14,3 @@ def trigger_colab_execution():
 
 if __name__ == "__main__":
     trigger_colab_execution()
-
