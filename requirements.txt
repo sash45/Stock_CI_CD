@@ -1,8 +1,8 @@
-echo "yfinance
+yfinance
 tensorflow
 numpy
 pandas
 pytest
 flake8
 streamlit
-requests" > requirements.txt
+requests
