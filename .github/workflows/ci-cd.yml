@@ -1,0 +1,44 @@
+name: CI/CD for Stock Prediction
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 3 * * 1"  # Runs every Monday at 3 AM UTC (Adjust as needed)
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v2
+        - name: Set Up Python
+          uses: actions/setup-python@v3
+          with:
+
+             python-version: 3.8
+        - name: Install Dependencies
+          run: pip install -r requirements.txt
+
+        - name: Run Linting
+          run: flake8 . --ignore=E501
+
+        - name: Run Unit Tests
+          run: pytest
+
+        - name: Trigger Model Training in Colab
+          run: python colab-repo-trainer.py
+          
+    deploy:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to Streamlit
+          run: |
+            git pull origin main
+            streamlit run app.py
+      
+          
+            
+    
